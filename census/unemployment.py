@@ -1,5 +1,5 @@
 from ssl import get_default_verify_paths
-import datacommons, datacommons_pandas as dc
+import datacommons_pandas as dc
 from numpy.lib.function_base import select
 import pandas as pd
 from seaborn.palettes import color_palette
