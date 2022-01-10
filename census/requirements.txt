@@ -1,0 +1,6 @@
+streamlit>=0.78.0
+datacommons_pandas
+pandas
+plotly
+matplotlib
+seaborn
