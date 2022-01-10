@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
-
-
 def num_col(count):
   if count%3 ==0:
     facet_col=3
@@ -149,7 +147,7 @@ def plot_all_states_rates(df):
   )
   st.plotly_chart(fig, use_container_width=True)
 
-def plot_gender(gender_df):
+def plot_gender(gender_df, counter):
   bars = px.bar(gender_df.sort_values(by='date', ascending=True), x="age", y="value", color="gender", barmode="group", facet_col="state",
               category_orders={"age": ["16-19", "20-21", "22-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+"],
                                 "sex": ["Male", "Female"]},
@@ -188,16 +186,16 @@ def main():
     if counter>10:
       st.warning("Only a maximum of 10 states can be displayed.")
       return
+    else:
+      selected_id_list, states_rate_df = data_mapping(states_dict, state_multi)
+      gender_df = gender_data(selected_id_list, state_multi)
 
-  selected_id_list, states_rate_df = data_mapping(states_dict, state_multi)
-  gender_df = gender_data(selected_id_list, state_multi)
-
-  #3. plotting time series of unemployment rate for selected state
-  plot_all_states_rates(states_rate_df)
-  #plotting time series of unemployment by age
-  
-  plot_gender(gender_df)
-  # plot2
+      #3. plotting time series of unemployment rate for selected state
+      plot_all_states_rates(states_rate_df)
+      #plotting time series of unemployment by age
+      
+      plot_gender(gender_df, counter)
+      # plot2
   
 
 if __name__ == "__main__":
