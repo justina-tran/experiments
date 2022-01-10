@@ -37,13 +37,11 @@ tickerSymbol = ticker_dict[option]
 tickerData = yf.Ticker(tickerSymbol)
 
 tickerDf = tickerData.history(period='1d', start=start_date, end=end_date)
+
 #Date | Open | High | Low | Close | Volume | Dividends | Stock Splits
-print(tickerDf)
 
 #plotting line chart
 st.line_chart(tickerDf[['Volume']])
-
-print(tickerDf.describe())
 
 #need to reset the index of tickerDf to create custom plots
 stock_data = tickerDf.reset_index()
@@ -70,27 +68,20 @@ c = alt.layer(line1, line2).resolve_scale(
 st.altair_chart(c, use_container_width=True)
 
 
-
-# chart = alt.Chart(tickerDf[['Date', '']]).mark_line().encode(
-#   alt.X('Open'),
-#   alt.Y('Close')
-# ).properties(title="Hello World")
-# st.altair_chart(chart, use_container_width=True)
-
-base2 = alt.Chart(stock_data).mark_point().encode(
+base3 = alt.Chart(stock_data).mark_point().encode(
     alt.X('Date', axis=alt.Axis(title=None)),
-    tooltip=['Date', 'Open:N', 'Close:N']
+    tooltip=['Date', 'High:N', 'Low:N']
 )
 
-open_price = base.mark_line(color='#57A44C').encode(
-    alt.Y('Open',
-          axis=alt.Axis(title='Open Price', titleColor='#57A44C'))
+high_line = base3.mark_line(color='#57A44C', size=3).encode(
+    alt.Y('High',
+          axis=alt.Axis(title='High', titleColor='#57A44C'))
 )
 
-close_price = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
-    alt.Y('Close',
-          axis=alt.Axis(title='Close Price', titleColor='#5276A7'))
+
+low_line = base3.mark_line(color='#e61537', size=3).encode(
+    alt.Y('Low')
 )
 
-chart2 = alt.layer(open_price, close_price)
-st.altair_chart(chart2, use_container_width=True)
+chart3 = alt.layer(high_line, low_line)
+st.altair_chart(chart3, use_container_width=True)
